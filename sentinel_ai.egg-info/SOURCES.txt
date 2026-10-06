@@ -1,0 +1,6 @@
+pyproject.toml
+sentinel_ai.egg-info/PKG-INFO
+sentinel_ai.egg-info/SOURCES.txt
+sentinel_ai.egg-info/dependency_links.txt
+sentinel_ai.egg-info/requires.txt
+sentinel_ai.egg-info/top_level.txt
