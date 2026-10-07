@@ -26,3 +26,23 @@ cancelled
 
 processing + shipment exists
 → False
+
+
+
+# remember as first result:
+
+''
+
+python -m sentinel.evaluation.retrieval_eval 
+
+''
+
+======================================================================
+SentinelAI Retrieval Evaluation
+======================================================================
+
+Cases:    22
+Recall@1: 0.636
+Recall@3: 0.818
+Recall@5: 0.955
+MRR:      0.759
