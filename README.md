@@ -33,16 +33,21 @@ processing + shipment exists
 
 ''
 
-python -m sentinel.evaluation.retrieval_eval 
+python -m sentinel.evaluation.compare_retrievers
 
 ''
 
-======================================================================
-SentinelAI Retrieval Evaluation
-======================================================================
-
-Cases:    22
+TF-IDF
+--------------------------------------------------
 Recall@1: 0.636
 Recall@3: 0.818
 Recall@5: 0.955
 MRR:      0.759
+
+
+Embeddings + FAISS
+--------------------------------------------------
+Recall@1: 0.864
+Recall@3: 1.000
+Recall@5: 1.000
+MRR:      0.932
