@@ -9,6 +9,9 @@ Requires-Dist: pydantic
 Requires-Dist: pydantic-settings
 Requires-Dist: sqlalchemy
 Requires-Dist: httpx
+Requires-Dist: scikit-learn
+Requires-Dist: sentence-transformers
+Requires-Dist: faiss-cpu
 Provides-Extra: dev
 Requires-Dist: pytest; extra == "dev"
 Requires-Dist: pytest-asyncio; extra == "dev"

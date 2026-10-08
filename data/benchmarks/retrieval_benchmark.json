@@ -1,0 +1,134 @@
+[
+  {
+    "id": "retrieval-001",
+    "query": "I was charged twice for the same order.",
+    "expected_document_id": "payment_policy",
+    "expected_section": "Duplicate Payments"
+  },
+  {
+    "id": "retrieval-002",
+    "query": "There are two completed payments on my order.",
+    "expected_document_id": "payment_policy",
+    "expected_section": "Duplicate Payments"
+  },
+  {
+    "id": "retrieval-003",
+    "query": "Does a failed payment count as a charge?",
+    "expected_document_id": "payment_policy",
+    "expected_section": "Failed Payments"
+  },
+  {
+    "id": "retrieval-004",
+    "query": "Which payment status means the money was successfully captured?",
+    "expected_document_id": "payment_policy",
+    "expected_section": "Successful Payments"
+  },
+  {
+    "id": "retrieval-005",
+    "query": "How should NovaShop verify that someone was charged twice?",
+    "expected_document_id": "payment_policy",
+    "expected_section": "Payment Verification"
+  },
+  {
+    "id": "retrieval-006",
+    "query": "Where will money from a payment error refund be sent?",
+    "expected_document_id": "payment_policy",
+    "expected_section": "Refund Destination"
+  },
+  {
+    "id": "retrieval-007",
+    "query": "How many days do I have to return an item?",
+    "expected_document_id": "refund_policy",
+    "expected_section": "Standard Return Window"
+  },
+  {
+    "id": "retrieval-008",
+    "query": "My product arrived damaged. Can I get a refund?",
+    "expected_document_id": "refund_policy",
+    "expected_section": "Damaged Items"
+  },
+  {
+    "id": "retrieval-009",
+    "query": "Are the original delivery charges refundable?",
+    "expected_document_id": "refund_policy",
+    "expected_section": "Refund Amount"
+  },
+  {
+    "id": "retrieval-010",
+    "query": "When can NovaShop issue only part of the refund?",
+    "expected_document_id": "refund_policy",
+    "expected_section": "Partial Refunds"
+  },
+  {
+    "id": "retrieval-011",
+    "query": "How long does an approved refund take?",
+    "expected_document_id": "refund_policy",
+    "expected_section": "Refund Processing"
+  },
+  {
+    "id": "retrieval-012",
+    "query": "Can I cancel my order before it ships?",
+    "expected_document_id": "cancellation_policy",
+    "expected_section": "Before Shipment"
+  },
+  {
+    "id": "retrieval-013",
+    "query": "Can an order still be cancelled after it has shipped?",
+    "expected_document_id": "cancellation_policy",
+    "expected_section": "After Shipment"
+  },
+  {
+    "id": "retrieval-014",
+    "query": "My order was cancelled but a completed payment still exists.",
+    "expected_document_id": "cancellation_policy",
+    "expected_section": "Payment After Cancellation"
+  },
+  {
+    "id": "retrieval-015",
+    "query": "Should an AI automatically execute an irreversible cancellation?",
+    "expected_document_id": "cancellation_policy",
+    "expected_section": "High-Risk Actions"
+  },
+  {
+    "id": "retrieval-016",
+    "query": "What does it mean when an order is still processing?",
+    "expected_document_id": "shipping_policy",
+    "expected_section": "Processing"
+  },
+  {
+    "id": "retrieval-017",
+    "query": "How can I check where my shipment currently is?",
+    "expected_document_id": "shipping_policy",
+    "expected_section": "Tracking"
+  },
+  {
+    "id": "retrieval-018",
+    "query": "My package has been in transit for too long. Is it lost?",
+    "expected_document_id": "shipping_policy",
+    "expected_section": "Delays"
+  },
+  {
+    "id": "retrieval-019",
+    "query": "How long is the standard product warranty?",
+    "expected_document_id": "warranty_policy",
+    "expected_section": "Standard Warranty"
+  },
+  {
+    "id": "retrieval-020",
+    "query": "Does the warranty cover accidental damage or misuse?",
+    "expected_document_id": "warranty_policy",
+    "expected_section": "Not Covered"
+  },
+  {
+    "id": "retrieval-021",
+    "query": "What solutions can NovaShop offer for a valid warranty claim?",
+    "expected_document_id": "warranty_policy",
+    "expected_section": "Resolution"
+  },
+  {
+    "id": "retrieval-022",
+    "query": "Can I stop my purchase before dispatch?",
+    "expected_document_id": "cancellation_policy",
+    "expected_section": "Before Shipment"
+  }
+]

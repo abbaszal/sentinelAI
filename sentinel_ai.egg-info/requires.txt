@@ -4,6 +4,9 @@ pydantic
 pydantic-settings
 sqlalchemy
 httpx
+scikit-learn
+sentence-transformers
+faiss-cpu
 
 [dev]
 pytest
