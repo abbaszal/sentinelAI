@@ -1,0 +1,765 @@
+{
+  "summary": {
+    "total_cases": 20,
+    "completed_rate": 0.75,
+    "duplicate_tool_coverage_rate": 0.7,
+    "duplicate_tool_accuracy_rate": 0.7,
+    "policy_coverage_rate": 0.95,
+    "answer_fact_coverage_rate": 0.7,
+    "overall_success_rate": 0.45,
+    "average_model_calls": 6.2,
+    "average_tool_calls": 5.95,
+    "average_verification_rejections": 0.75,
+    "average_scope_rejections": 0.55,
+    "average_prompt_tokens": 8634.15,
+    "average_completion_tokens": 348.25,
+    "average_latency_seconds": 94.24730810455294
+  },
+  "cases": [
+    {
+      "case_id": "agent-dup-001",
+      "category": "direct",
+      "customer_id": 2,
+      "expected_duplicate": true,
+      "oracle_orders": [
+        {
+          "order_id": 2,
+          "duplicate_payment": true,
+          "overpayment_amount": 49.99
+        },
+        {
+          "order_id": 3,
+          "duplicate_payment": true,
+          "overpayment_amount": 39.9
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": true,
+      "model_calls": 6,
+      "tool_calls": 3,
+      "verification_rejections": 2,
+      "scope_rejections": 1,
+      "prompt_tokens": 7863,
+      "completion_tokens": 465,
+      "latency_seconds": 118.24773295900377,
+      "answer": "The investigation confirms that both order 2 and order 3 satisfy NovaShop's deterministic duplicate-payment rule. \n\n- **Order 2**: Overpayment amount is $49.99. The order was shipped, and it contains a duplicate payment.  \n- **Order 3**: Overpayment amount is $39.90. The order was also shipped, and it contains a duplicate payment.  \n\nThe customer's valid order IDs are 2 and 3. Both orders are marked as \"shipped,\" but only order 2 had a duplicate payment. No further action is required at this time.",
+      "failures": []
+    },
+    {
+      "case_id": "agent-dup-002",
+      "category": "policy",
+      "customer_id": 2,
+      "expected_duplicate": true,
+      "oracle_orders": [
+        {
+          "order_id": 2,
+          "duplicate_payment": true,
+          "overpayment_amount": 49.99
+        },
+        {
+          "order_id": 3,
+          "duplicate_payment": true,
+          "overpayment_amount": 39.9
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": true,
+      "model_calls": 6,
+      "tool_calls": 9,
+      "verification_rejections": 0,
+      "scope_rejections": 0,
+      "prompt_tokens": 9562,
+      "completion_tokens": 396,
+      "latency_seconds": 124.83174160400813,
+      "answer": "The investigation has identified that Order 2 and Order 3 contain duplicate payments. According to NovaShop's Payment Policy:\n\n1. **Duplicate Payment Verification**: NovaShop must inspect all payment records associated with an order before concluding that a customer was charged twice. This includes checking the status and amount of each payment, not just the number of transactions.\n2. **Excess Payment Refund**: If a duplicate payment is confirmed, the excess amount should be refunded to the customer.\n\nFor Order 2, the excess payment amount is $49.99, which should be refunded. For Order 3, the excess payment amount is $39.90, which should also be refunded.\n\nNovaShop policy requires a thorough inspection of payment records to determine if a duplicate payment exists and to handle any excess payments appropriately. The policy does not provide specific instructions on how to handle the refund, but it emphasizes the importance of verifying payment records and ensuring proper refund processing.",
+      "failures": []
+    },
+    {
+      "case_id": "agent-dup-003",
+      "category": "paraphrase",
+      "customer_id": 8,
+      "expected_duplicate": true,
+      "oracle_orders": [
+        {
+          "order_id": 15,
+          "duplicate_payment": true,
+          "overpayment_amount": 19.99
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": false,
+      "duplicate_tool_accuracy": false,
+      "policy_coverage": true,
+      "answer_fact_coverage": false,
+      "overall_success": false,
+      "model_calls": 5,
+      "tool_calls": 3,
+      "verification_rejections": 0,
+      "scope_rejections": 1,
+      "prompt_tokens": 5336,
+      "completion_tokens": 165,
+      "latency_seconds": 31.36795924999751,
+      "answer": "The account was overcharged by $19.99. The order contains two completed payments of $19.99 each, totaling $39.98, which is consistent with the overcharge. The overpayment amount is $19.99, indicating that the customer's account was charged an additional $19.99 for the same purchases.",
+      "failures": [
+        "Not every relevant order received a successful detect_duplicate_payment call.",
+        "Agent trace does not match the trusted duplicate-payment oracle.",
+        "Final answer does not cover the required deterministic facts."
+      ]
+    },
+    {
+      "case_id": "agent-dup-004",
+      "category": "paraphrase_policy",
+      "customer_id": 8,
+      "expected_duplicate": true,
+      "oracle_orders": [
+        {
+          "order_id": 15,
+          "duplicate_payment": true,
+          "overpayment_amount": 19.99
+        }
+      ],
+      "finish_reason": "step_limit",
+      "completed": false,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": false,
+      "overall_success": false,
+      "model_calls": 8,
+      "tool_calls": 8,
+      "verification_rejections": 1,
+      "scope_rejections": 0,
+      "prompt_tokens": 9888,
+      "completion_tokens": 320,
+      "latency_seconds": 58.5518375870015,
+      "answer": "SentinelAI could not produce a verified answer within the allowed reasoning steps. Human review is required.",
+      "failures": [
+        "Agent did not finish with finish_reason='completed'.",
+        "Final answer does not cover the required deterministic facts."
+      ]
+    },
+    {
+      "case_id": "agent-dup-005",
+      "category": "direct",
+      "customer_id": 14,
+      "expected_duplicate": true,
+      "oracle_orders": [
+        {
+          "order_id": 25,
+          "duplicate_payment": true,
+          "overpayment_amount": 199.0
+        },
+        {
+          "order_id": 27,
+          "duplicate_payment": true,
+          "overpayment_amount": 75.5
+        },
+        {
+          "order_id": 26,
+          "duplicate_payment": true,
+          "overpayment_amount": 29.99
+        }
+      ],
+      "finish_reason": "step_limit",
+      "completed": false,
+      "duplicate_tool_coverage": false,
+      "duplicate_tool_accuracy": false,
+      "policy_coverage": true,
+      "answer_fact_coverage": false,
+      "overall_success": false,
+      "model_calls": 8,
+      "tool_calls": 7,
+      "verification_rejections": 0,
+      "scope_rejections": 1,
+      "prompt_tokens": 12222,
+      "completion_tokens": 177,
+      "latency_seconds": 60.05614283400064,
+      "answer": "SentinelAI could not produce a verified answer within the allowed reasoning steps. Human review is required.",
+      "failures": [
+        "Agent did not finish with finish_reason='completed'.",
+        "Not every relevant order received a successful detect_duplicate_payment call.",
+        "Agent trace does not match the trusted duplicate-payment oracle.",
+        "Final answer does not cover the required deterministic facts."
+      ]
+    },
+    {
+      "case_id": "agent-dup-006",
+      "category": "policy",
+      "customer_id": 14,
+      "expected_duplicate": true,
+      "oracle_orders": [
+        {
+          "order_id": 25,
+          "duplicate_payment": true,
+          "overpayment_amount": 199.0
+        },
+        {
+          "order_id": 27,
+          "duplicate_payment": true,
+          "overpayment_amount": 75.5
+        },
+        {
+          "order_id": 26,
+          "duplicate_payment": true,
+          "overpayment_amount": 29.99
+        }
+      ],
+      "finish_reason": "step_limit",
+      "completed": false,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": false,
+      "overall_success": false,
+      "model_calls": 8,
+      "tool_calls": 7,
+      "verification_rejections": 0,
+      "scope_rejections": 1,
+      "prompt_tokens": 12661,
+      "completion_tokens": 187,
+      "latency_seconds": 119.12020746500639,
+      "answer": "SentinelAI could not produce a verified answer within the allowed reasoning steps. Human review is required.",
+      "failures": [
+        "Agent did not finish with finish_reason='completed'.",
+        "Final answer does not cover the required deterministic facts."
+      ]
+    },
+    {
+      "case_id": "agent-dup-007",
+      "category": "paraphrase",
+      "customer_id": 20,
+      "expected_duplicate": true,
+      "oracle_orders": [
+        {
+          "order_id": 39,
+          "duplicate_payment": true,
+          "overpayment_amount": 49.99
+        },
+        {
+          "order_id": 38,
+          "duplicate_payment": true,
+          "overpayment_amount": 89.99
+        },
+        {
+          "order_id": 40,
+          "duplicate_payment": true,
+          "overpayment_amount": 39.9
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": true,
+      "model_calls": 6,
+      "tool_calls": 8,
+      "verification_rejections": 0,
+      "scope_rejections": 1,
+      "prompt_tokens": 7827,
+      "completion_tokens": 441,
+      "latency_seconds": 80.66384066699538,
+      "answer": "The investigation reveals that all three orders have duplicate payments. The overpayment amounts are as follows:\n- Order 39: $49.99\n- Order 38: $89.99\n- Order 40: $39.90\n\nThese duplicate payments indicate potential overpayment issues that need to be addressed. The system detected duplicate payments for each order, which suggests that the customer may have received multiple payments for the same transaction. The overpayment amounts are calculated based on the total amount of the order. It is recommended to review the payment records and adjust the payment amounts accordingly to ensure accuracy and compliance with NovaShop policies.",
+      "failures": []
+    },
+    {
+      "case_id": "agent-dup-008",
+      "category": "paraphrase_policy",
+      "customer_id": 20,
+      "expected_duplicate": true,
+      "oracle_orders": [
+        {
+          "order_id": 39,
+          "duplicate_payment": true,
+          "overpayment_amount": 49.99
+        },
+        {
+          "order_id": 38,
+          "duplicate_payment": true,
+          "overpayment_amount": 89.99
+        },
+        {
+          "order_id": 40,
+          "duplicate_payment": true,
+          "overpayment_amount": 39.9
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": false,
+      "duplicate_tool_accuracy": false,
+      "policy_coverage": true,
+      "answer_fact_coverage": false,
+      "overall_success": false,
+      "model_calls": 8,
+      "tool_calls": 7,
+      "verification_rejections": 1,
+      "scope_rejections": 0,
+      "prompt_tokens": 12092,
+      "completion_tokens": 385,
+      "latency_seconds": 109.09481588299968,
+      "answer": "The NovaShop Payment Policy indicates that a duplicate payment exists for order 39, as multiple completed payments exceed the order total. The excess amount of 49.99 is to be refunded.\n\nAccording to the NovaShop Refund Policy, the system must check previous refund records before proposing another refund. The total refunded amount must not exceed the amount that was actually paid for the order.\n\nNext, we need to determine if the duplicate payment is valid under NovaShop's deterministic duplicate-payment rule and if the overpayment can be refunded.",
+      "failures": [
+        "Not every relevant order received a successful detect_duplicate_payment call.",
+        "Agent trace does not match the trusted duplicate-payment oracle.",
+        "Final answer does not cover the required deterministic facts."
+      ]
+    },
+    {
+      "case_id": "agent-dup-009",
+      "category": "direct",
+      "customer_id": 26,
+      "expected_duplicate": true,
+      "oracle_orders": [
+        {
+          "order_id": 50,
+          "duplicate_payment": true,
+          "overpayment_amount": 24.5
+        },
+        {
+          "order_id": 52,
+          "duplicate_payment": true,
+          "overpayment_amount": 89.99
+        },
+        {
+          "order_id": 51,
+          "duplicate_payment": true,
+          "overpayment_amount": 75.5
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": true,
+      "model_calls": 5,
+      "tool_calls": 11,
+      "verification_rejections": 0,
+      "scope_rejections": 0,
+      "prompt_tokens": 8187,
+      "completion_tokens": 365,
+      "latency_seconds": 92.24799201800488,
+      "answer": "The investigation has confirmed that the orders 50, 52, and 51 each have a duplicate payment detected, with the overpayment amounts as follows:\n\n- **Order 50**: Overpayment of $24.50\n- **Order 52**: Overpayment of $89.99\n- **Order 51**: Overpayment of $75.50\n\nThese findings indicate that the customer was double charged for these orders, and the overpayments have been identified. No further actions are required at this time.",
+      "failures": []
+    },
+    {
+      "case_id": "agent-dup-010",
+      "category": "policy",
+      "customer_id": 26,
+      "expected_duplicate": true,
+      "oracle_orders": [
+        {
+          "order_id": 50,
+          "duplicate_payment": true,
+          "overpayment_amount": 24.5
+        },
+        {
+          "order_id": 52,
+          "duplicate_payment": true,
+          "overpayment_amount": 89.99
+        },
+        {
+          "order_id": 51,
+          "duplicate_payment": true,
+          "overpayment_amount": 75.5
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": true,
+      "model_calls": 4,
+      "tool_calls": 5,
+      "verification_rejections": 2,
+      "scope_rejections": 0,
+      "prompt_tokens": 6574,
+      "completion_tokens": 894,
+      "latency_seconds": 207.6162973340106,
+      "answer": "The investigation into Customer 26's reported double charge has been fully supported by the following evidence:\n\n1. **Order Details**:\n   - Order ID 50: Status \"shipped\", Total Amount $24.50, Created At 2026-08-17T15:06:43.221240\n   - Order ID 51: Status \"shipped\", Total Amount $75.50, Created At 2026-07-21T15:06:43.222214\n   - Order ID 52: Status \"shipped\", Total Amount $89.99, Created At 2026-07-30T15:06:43.223334\n\n2. **Duplicate Payment Confirmation**:\n   - Order ID 50: Duplicate payment confirmed, Overpayment Amount $24.50\n   - Order ID 51: Duplicate payment confirmed, Overpayment Amount $75.50\n   - Order ID 52: Duplicate payment confirmed, Overpayment Amount $89.99\n\n3. **Policy Compliance**:\n   - The duplicate payment policy indicates that when multiple completed payments are recorded for the same order and the total completed payment amount exceeds the order total, the excess amount should be refunded.\n   - The payment verification policy emphasizes that NovaShop must inspect all payment records associated with an order before concluding that a customer was charged twice, and payment records must be evaluated based on their status and amount, not just the number of transactions.\n\nThese findings support the conclusion that Customer 26's charges were confirmed as duplicate payments, and the excess amounts should be refunded according to NovaShop's policies.",
+      "failures": []
+    },
+    {
+      "case_id": "agent-dup-011",
+      "category": "negative_direct",
+      "customer_id": 1,
+      "expected_duplicate": false,
+      "oracle_orders": [
+        {
+          "order_id": 1,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": true,
+      "model_calls": 6,
+      "tool_calls": 4,
+      "verification_rejections": 1,
+      "scope_rejections": 1,
+      "prompt_tokens": 7122,
+      "completion_tokens": 184,
+      "latency_seconds": 67.32343464400037,
+      "answer": "The investigation has confirmed that there is no duplicate payment for Order ID 1. The payment status shows that the payment was completed without any overpayment, and the order is in a valid state. No further action is required based on the current evidence.",
+      "failures": []
+    },
+    {
+      "case_id": "agent-dup-012",
+      "category": "negative_policy",
+      "customer_id": 1,
+      "expected_duplicate": false,
+      "oracle_orders": [
+        {
+          "order_id": 1,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": true,
+      "model_calls": 6,
+      "tool_calls": 4,
+      "verification_rejections": 1,
+      "scope_rejections": 1,
+      "prompt_tokens": 8193,
+      "completion_tokens": 408,
+      "latency_seconds": 128.99946397899475,
+      "answer": "The investigation has concluded that the order ID 1 does not meet the criteria for a duplicate payment. The system has confirmed that the order does not have multiple completed payments exceeding the order total, and there is no overpayment detected.\n\nNo further action is required at this time. The claim of a duplicate payment is not supported by the available evidence.",
+      "failures": []
+    },
+    {
+      "case_id": "agent-dup-013",
+      "category": "negative_paraphrase",
+      "customer_id": 7,
+      "expected_duplicate": false,
+      "oracle_orders": [
+        {
+          "order_id": 13,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        },
+        {
+          "order_id": 14,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        },
+        {
+          "order_id": 12,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": false,
+      "duplicate_tool_accuracy": false,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": false,
+      "model_calls": 7,
+      "tool_calls": 5,
+      "verification_rejections": 0,
+      "scope_rejections": 1,
+      "prompt_tokens": 8715,
+      "completion_tokens": 178,
+      "latency_seconds": 37.05306708101125,
+      "answer": "The payment summary for order 12 shows that the total amount paid was 120.00, with no completed refunds and no overpayment detected. This indicates that the customer was not overcharged for this purchase.",
+      "failures": [
+        "Not every relevant order received a successful detect_duplicate_payment call.",
+        "Agent trace does not match the trusted duplicate-payment oracle."
+      ]
+    },
+    {
+      "case_id": "agent-dup-014",
+      "category": "negative_paraphrase_policy",
+      "customer_id": 7,
+      "expected_duplicate": false,
+      "oracle_orders": [
+        {
+          "order_id": 13,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        },
+        {
+          "order_id": 14,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        },
+        {
+          "order_id": 12,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        }
+      ],
+      "finish_reason": "step_limit",
+      "completed": false,
+      "duplicate_tool_coverage": false,
+      "duplicate_tool_accuracy": false,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": false,
+      "model_calls": 8,
+      "tool_calls": 8,
+      "verification_rejections": 1,
+      "scope_rejections": 0,
+      "prompt_tokens": 10534,
+      "completion_tokens": 266,
+      "latency_seconds": 55.61443368400796,
+      "answer": "SentinelAI could not produce a verified answer within the allowed reasoning steps. Human review is required.",
+      "failures": [
+        "Agent did not finish with finish_reason='completed'.",
+        "Not every relevant order received a successful detect_duplicate_payment call.",
+        "Agent trace does not match the trusted duplicate-payment oracle."
+      ]
+    },
+    {
+      "case_id": "agent-dup-015",
+      "category": "negative_direct",
+      "customer_id": 13,
+      "expected_duplicate": false,
+      "oracle_orders": [
+        {
+          "order_id": 24,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        },
+        {
+          "order_id": 23,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        },
+        {
+          "order_id": 22,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": true,
+      "model_calls": 4,
+      "tool_calls": 5,
+      "verification_rejections": 1,
+      "scope_rejections": 1,
+      "prompt_tokens": 5134,
+      "completion_tokens": 407,
+      "latency_seconds": 104.51820600598876,
+      "answer": "The system has retrieved policy documents related to duplicate payments. According to the policy, NovaShop must inspect all payment records associated with an order before concluding that a customer was charged twice. The policy also emphasizes that payment records must not be judged only by the number of transactions but their status and amount must also be considered.\n\nBased on the retrieved policy, the system does support the claim of a duplicate charge. The policy indicates that NovaShop must inspect all payment records for an order to determine if a duplicate payment exists. The system has confirmed that none of the orders (22, 23, or 24) have a duplicate payment, and the overpayment amount is zero for all orders.\n\nTherefore, the system does support the claim that there is a duplicate charge.",
+      "failures": []
+    },
+    {
+      "case_id": "agent-dup-016",
+      "category": "negative_policy",
+      "customer_id": 13,
+      "expected_duplicate": false,
+      "oracle_orders": [
+        {
+          "order_id": 24,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        },
+        {
+          "order_id": 23,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        },
+        {
+          "order_id": 22,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": false,
+      "overall_success": false,
+      "model_calls": 7,
+      "tool_calls": 5,
+      "verification_rejections": 0,
+      "scope_rejections": 1,
+      "prompt_tokens": 10328,
+      "completion_tokens": 430,
+      "latency_seconds": 145.64248201000737,
+      "answer": "The investigation is now supported by all required evidence.\n\n### Operational Findings:\n- **Order 22**: No duplicate payment detected. The total amount of $149.99 matches the order total, and there is no overpayment.\n- **Order 23**: No duplicate payment detected. The total amount of $24.50 matches the order total, and there is no overpayment.\n- **Order 24**: No duplicate payment detected. The total amount of $149.99 matches the order total, and there is no overpayment.\n\n### Policy Insights:\n- According to NovaShop's **Payment Policy** (Section \"Duplicate Payments\"), before concluding a customer was charged twice, all payment records must be inspected. The policy emphasizes that the status and amount of each payment must be evaluated, not just the number of transactions.\n- The **Refund Destination** policy states that refunds related to payment errors should be returned to the original payment method.\n- The **Payment Verification** policy highlights that a possible duplicate payment is confirmed when multiple completed payments are recorded for the same order and the total completed payment amount exceeds the order total.\n\n### Conclusion:\n- No duplicate payments were found in the records of customer 13.\n- The policies confirm that NovaShop requires a thorough inspection of payment records to determine if a duplicate payment exists, and that any excess amount should be refunded.",
+      "failures": [
+        "Final answer does not cover the required deterministic facts."
+      ]
+    },
+    {
+      "case_id": "agent-dup-017",
+      "category": "negative_paraphrase",
+      "customer_id": 19,
+      "expected_duplicate": false,
+      "oracle_orders": [
+        {
+          "order_id": 35,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        },
+        {
+          "order_id": 36,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        },
+        {
+          "order_id": 37,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": false,
+      "duplicate_tool_accuracy": false,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": false,
+      "model_calls": 2,
+      "tool_calls": 1,
+      "verification_rejections": 0,
+      "scope_rejections": 0,
+      "prompt_tokens": 1793,
+      "completion_tokens": 94,
+      "latency_seconds": 14.722681255996577,
+      "answer": "The customer has an ID of 19, and their name is Martina Barbieri. They have made 3 orders and have 0 support cases. \n\nNext, we need to investigate whether an overpayment exists. To do this, we should check the payment records associated with the customer's orders. Let's proceed with the next step.",
+      "failures": [
+        "Not every relevant order received a successful detect_duplicate_payment call.",
+        "Agent trace does not match the trusted duplicate-payment oracle."
+      ]
+    },
+    {
+      "case_id": "agent-dup-018",
+      "category": "negative_paraphrase_policy",
+      "customer_id": 19,
+      "expected_duplicate": false,
+      "oracle_orders": [
+        {
+          "order_id": 35,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        },
+        {
+          "order_id": 36,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        },
+        {
+          "order_id": 37,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": false,
+      "answer_fact_coverage": true,
+      "overall_success": false,
+      "model_calls": 8,
+      "tool_calls": 11,
+      "verification_rejections": 0,
+      "scope_rejections": 0,
+      "prompt_tokens": 12145,
+      "completion_tokens": 512,
+      "latency_seconds": 92.62029263500881,
+      "answer": "The investigation concluded that none of the orders (IDs 35, 36, 37) meet NovaShop's deterministic duplicate-payment rule. Each order has a single payment, and no overpayment was detected.\n\n### Key Findings:\n- **Order 35**: No duplicate payment detected. Total payment: $59.99.\n- **Order 36**: No duplicate payment detected. Total payment: $149.99.\n- **Order 37**: No duplicate payment detected. Total payment: $75.50.\n\n### Actions to Take:\n1. **Verify Payment Records**: Confirm that the payment records are accurate and consistent with the order details.\n2. **Check for Overpayments**: Ensure that no overpayment was detected in the payment records.\n3. **Address Customer Concerns**: Since the customer claims one purchase caused multiple card transactions, further investigation into the payment records is necessary to resolve this concern.\n4. **Document Findings**: Record the results of the investigation and communicate them to the customer for resolution.",
+      "failures": [
+        "Required policy evidence was not retrieved."
+      ]
+    },
+    {
+      "case_id": "agent-dup-019",
+      "category": "negative_direct",
+      "customer_id": 25,
+      "expected_duplicate": false,
+      "oracle_orders": [
+        {
+          "order_id": 49,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        }
+      ],
+      "finish_reason": "completed",
+      "completed": true,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": true,
+      "model_calls": 4,
+      "tool_calls": 3,
+      "verification_rejections": 2,
+      "scope_rejections": 0,
+      "prompt_tokens": 4426,
+      "completion_tokens": 190,
+      "latency_seconds": 62.83050215100229,
+      "answer": "The payment status for order 49 shows no duplicate payments and an overpayment amount of $0.00. Therefore, there is no evidence of double charging. The customer's order details confirm a single charge of $149.99, and the payment records do not indicate any duplication or overpayment. No further action is required based on the current evidence.",
+      "failures": []
+    },
+    {
+      "case_id": "agent-dup-020",
+      "category": "negative_policy",
+      "customer_id": 25,
+      "expected_duplicate": false,
+      "oracle_orders": [
+        {
+          "order_id": 49,
+          "duplicate_payment": false,
+          "overpayment_amount": 0.0
+        }
+      ],
+      "finish_reason": "step_limit",
+      "completed": false,
+      "duplicate_tool_coverage": true,
+      "duplicate_tool_accuracy": true,
+      "policy_coverage": true,
+      "answer_fact_coverage": true,
+      "overall_success": false,
+      "model_calls": 8,
+      "tool_calls": 5,
+      "verification_rejections": 3,
+      "scope_rejections": 1,
+      "prompt_tokens": 12081,
+      "completion_tokens": 501,
+      "latency_seconds": 173.82303104401217,
+      "answer": "SentinelAI could not produce a verified answer within the allowed reasoning steps. Human review is required.",
+      "failures": [
+        "Agent did not finish with finish_reason='completed'."
+      ]
+    }
+  ]
+}

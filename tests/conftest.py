@@ -193,6 +193,10 @@ def db():
     session.add(cancellable_payment)
 
 
+    def anyio_backend():
+        return "asyncio"
+
+
     yield session
 
     session.close()

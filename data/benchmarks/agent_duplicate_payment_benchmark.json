@@ -1,0 +1,162 @@
+[
+  {
+    "id": "agent-dup-001",
+    "customer_id": 2,
+    "expected_duplicate": true,
+    "requires_policy": false,
+    "category": "direct",
+    "user_request": "Customer 2 says they were charged twice. Investigate whether that is true."
+  },
+  {
+    "id": "agent-dup-002",
+    "customer_id": 2,
+    "expected_duplicate": true,
+    "requires_policy": true,
+    "category": "policy",
+    "user_request": "Customer 2 says they were charged twice. Investigate what happened and explain what NovaShop policy says should happen next."
+  },
+  {
+    "id": "agent-dup-003",
+    "customer_id": 8,
+    "expected_duplicate": true,
+    "requires_policy": false,
+    "category": "paraphrase",
+    "user_request": "Customer 8 sees two identical debits for the same purchases. Check whether the account was overcharged."
+  },
+  {
+    "id": "agent-dup-004",
+    "customer_id": 8,
+    "expected_duplicate": true,
+    "requires_policy": true,
+    "category": "paraphrase_policy",
+    "user_request": "Customer 8 says the same card transaction seems to appear more than once. Investigate and explain what NovaShop should do according to its rules."
+  },
+  {
+    "id": "agent-dup-005",
+    "customer_id": 14,
+    "expected_duplicate": true,
+    "requires_policy": false,
+    "category": "direct",
+    "user_request": "Customer 14 reports duplicate payments. Determine which orders are affected and the excess amount."
+  },
+  {
+    "id": "agent-dup-006",
+    "customer_id": 14,
+    "expected_duplicate": true,
+    "requires_policy": true,
+    "category": "policy",
+    "user_request": "Customer 14 believes they paid twice for their orders. Verify the claim and explain the applicable NovaShop payment policy."
+  },
+  {
+    "id": "agent-dup-007",
+    "customer_id": 20,
+    "expected_duplicate": true,
+    "requires_policy": false,
+    "category": "paraphrase",
+    "user_request": "Customer 20 has two card entries that look like they belong to one purchase. Investigate the payments."
+  },
+  {
+    "id": "agent-dup-008",
+    "customer_id": 20,
+    "expected_duplicate": true,
+    "requires_policy": true,
+    "category": "paraphrase_policy",
+    "user_request": "Customer 20 thinks money was taken more than once for the same purchase. Determine what happened and what NovaShop rules require next."
+  },
+  {
+    "id": "agent-dup-009",
+    "customer_id": 26,
+    "expected_duplicate": true,
+    "requires_policy": false,
+    "category": "direct",
+    "user_request": "Customer 26 says they were double charged. Check every relevant order and determine the overpayment."
+  },
+  {
+    "id": "agent-dup-010",
+    "customer_id": 26,
+    "expected_duplicate": true,
+    "requires_policy": true,
+    "category": "policy",
+    "user_request": "Customer 26 reports being charged twice. Investigate and explain what the payment policy says about confirmed excess charges."
+  },
+  {
+    "id": "agent-dup-011",
+    "customer_id": 1,
+    "expected_duplicate": false,
+    "requires_policy": false,
+    "category": "negative_direct",
+    "user_request": "Customer 1 says they were charged twice. Verify whether a duplicate payment actually exists."
+  },
+  {
+    "id": "agent-dup-012",
+    "customer_id": 1,
+    "expected_duplicate": false,
+    "requires_policy": true,
+    "category": "negative_policy",
+    "user_request": "Customer 1 believes there is a duplicate payment. Investigate the claim and explain the relevant NovaShop policy."
+  },
+  {
+    "id": "agent-dup-013",
+    "customer_id": 7,
+    "expected_duplicate": false,
+    "requires_policy": false,
+    "category": "negative_paraphrase",
+    "user_request": "Customer 7 thinks the same purchase appears twice on their payment history. Check whether they were actually overcharged."
+  },
+  {
+    "id": "agent-dup-014",
+    "customer_id": 7,
+    "expected_duplicate": false,
+    "requires_policy": true,
+    "category": "negative_paraphrase_policy",
+    "user_request": "Customer 7 sees what looks like two debits for one purchase. Investigate and describe what NovaShop rules say if no duplicate is found."
+  },
+  {
+    "id": "agent-dup-015",
+    "customer_id": 13,
+    "expected_duplicate": false,
+    "requires_policy": false,
+    "category": "negative_direct",
+    "user_request": "Customer 13 reports a duplicate charge. Determine whether the system supports that claim."
+  },
+  {
+    "id": "agent-dup-016",
+    "customer_id": 13,
+    "expected_duplicate": false,
+    "requires_policy": true,
+    "category": "negative_policy",
+    "user_request": "Customer 13 says they paid twice. Verify the payment records and explain the relevant company policy."
+  },
+  {
+    "id": "agent-dup-017",
+    "customer_id": 19,
+    "expected_duplicate": false,
+    "requires_policy": false,
+    "category": "negative_paraphrase",
+    "user_request": "Customer 19 believes an extra card debit was made for their purchase. Investigate whether an overpayment exists."
+  },
+  {
+    "id": "agent-dup-018",
+    "customer_id": 19,
+    "expected_duplicate": false,
+    "requires_policy": true,
+    "category": "negative_paraphrase_policy",
+    "user_request": "Customer 19 thinks one purchase caused multiple card transactions. Check the claim and explain what NovaShop should do under its payment rules."
+  },
+  {
+    "id": "agent-dup-019",
+    "customer_id": 25,
+    "expected_duplicate": false,
+    "requires_policy": false,
+    "category": "negative_direct",
+    "user_request": "Customer 25 says they were double charged. Check all of their orders and determine whether that is correct."
+  },
+  {
+    "id": "agent-dup-020",
+    "customer_id": 25,
+    "expected_duplicate": false,
+    "requires_policy": true,
+    "category": "negative_policy",
+    "user_request": "Customer 25 reports duplicate payments. Investigate the evidence and explain the NovaShop policy that applies."
+  }
+]

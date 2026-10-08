@@ -34,11 +34,17 @@ def test_get_customer_orders(db):
         customer_id=1,
     )
 
-    assert len(orders) == 1
+    order_ids = {
+        order.id
+        for order in orders
+    }
 
-    assert orders[0].id == 100
-
-    assert orders[0].total_amount == 59.99
+    assert order_ids == {
+        100,
+        101,
+        102,
+        103,
+    }
 
 
 def test_get_order(db):
@@ -49,6 +55,7 @@ def test_get_order(db):
 
     assert order is not None
     assert order.status == "shipped"
+    assert order.total_amount == 59.99
 
 
 def test_duplicate_payment_case(db):
@@ -65,7 +72,6 @@ def test_duplicate_payment_case(db):
     )
 
     assert payments[0].amount == 59.99
-
     assert payments[1].amount == 59.99
 
 
@@ -79,6 +85,11 @@ def test_get_shipment(db):
 
     assert shipments[0].status == "in_transit"
 
+    assert (
+        shipments[0].tracking_id
+        == "TEST-TRACK-001"
+    )
+
 
 def test_get_previous_cases(db):
     cases = get_previous_cases(
@@ -88,4 +99,7 @@ def test_get_previous_cases(db):
 
     assert len(cases) == 1
 
-    assert cases[0].subject == "Charged twice"
+    assert (
+        cases[0].subject
+        == "Charged twice"
+    )

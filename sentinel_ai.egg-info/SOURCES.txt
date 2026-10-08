@@ -6,11 +6,13 @@ sentinel/__init__.py
 sentinel/business/__init__.py
 sentinel/business/order_rules.py
 sentinel/evaluation/__init__.py
+sentinel/evaluation/compare_retrievers.py
 sentinel/evaluation/retrieval_eval.py
 sentinel/repositories/__init__.py
 sentinel/repositories/support_repository.py
 sentinel/retrieval/__init__.py
 sentinel/retrieval/documents.py
+sentinel/retrieval/embedding_retriever.py
 sentinel/retrieval/retriever.py
 sentinel_ai.egg-info/PKG-INFO
 sentinel_ai.egg-info/SOURCES.txt
