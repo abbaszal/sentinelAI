@@ -199,7 +199,6 @@ The benchmark oracle is calculated from the database and deterministic business 
 
 ## Latest full agent benchmark
 
-> Fill this section after running the full benchmark.
 
 ```text
 Cases:                     20
