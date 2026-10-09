@@ -1,270 +1,132 @@
 # SentinelAI
 
-> **Local-first agentic AI system for customer-support investigations using RAG, MCP tools, local LLMs, deterministic verification, and evaluation.**
 
-SentinelAI is a portfolio project focused on building a **reliable AI agent**, not just a chatbot.  
-It combines **RAG**, **tool-using agents**, **MCP**, **Ollama/Qwen**, structured business logic, and benchmark-driven evaluation.
+SentinelAI investigates customer-support cases using a local LLM, retrieval over policy documents, and tightly scoped MCP tools. It is designed as a reliability-focused AI engineering project: deterministic checks validate the agent's tool use and final answer instead of treating fluent model output as ground truth.
 
----
 
-## What this project demonstrates
 
-- **RAG** with Markdown policies, MiniLM embeddings, and FAISS
-- **Agentic workflows** with multi-step tool use
-- **MCP** servers for database, knowledge, and business operations
-- **Local LLMs** with Ollama + Qwen3 1.7B on CPU
-- **Deterministic business rules** for trusted decisions
-- **Execution scope** to stop the agent accessing unrelated orders
-- **Evidence verification** before accepting final answers
-- **Agent benchmarks** for correctness, tool usage, latency, and token cost
+| **Problem** | Support agents can invent policy, inspect the wrong order, or miss evidence. |
+|---|---|
+| **Approach** | Local Qwen agent + RAG + narrowly scoped MCP tools + deterministic evidence gate. |
+| **Proof** | MiniLM + FAISS reached **1.000 Recall@3/5** and **0.932 MRR** on the included retrieval benchmark. |
+| **Honest baseline** | The latest 20-case end-to-end run achieved **45% overall success**; failures are retained and measured rather than hidden. 
 
----
+## What it does
 
-## Architecture
+A customer says they were charged twice. SentinelAI:
+
+1. identifies the customer's in-scope orders;
+2. calls deterministic payment and operations tools to inspect the evidence;
+3. retrieves the relevant NovaShop policy through semantic search;
+4. rejects answers that lack required evidence or verified facts; and
+5. returns a verified response or escalates the case for human review.
 
 ```text
-User
-  ↓
-Qwen Agent
-  ↓
-Execution Scope
-  ↓
-MCP Tools
-  ├── Support DB → SQLAlchemy → SQLite
-  ├── Operations → Deterministic Business Rules
-  └── Knowledge → MiniLM + FAISS → Policy Docs
-  ↓
-EvidenceGate
-  ↓
-Verified Answer / Human Review
+Customer request
+       |
+       v
+Local Qwen agent --> execution scope --> MCP tools
+       |                                  |- Support DB (SQLite)
+       |                                  |- Operations rules
+       |                                  `- Policy search (MiniLM + FAISS)
+       v
+EvidenceGate --> verified answer or human review
 ```
 
----
+## Why this is different
 
-## Core stack
+The LLM proposes an investigation; it does not get unrestricted database or code access, and it does not have final authority. SentinelAI adds several guardrails:
 
-`Python` · `FastAPI` · `SQLAlchemy` · `SQLite` · `Ollama` · `Qwen3` · `MCP` · `sentence-transformers` · `FAISS` · `scikit-learn` · `pytest`
+- **Scoped capabilities:** the model can call named MCP tools, not arbitrary SQL or Python.
+- **Execution scope:** customer and order identifiers are constrained as evidence accumulates.
+- **Deterministic decisions:** duplicate-payment and operations checks are implemented as business rules, not model guesses.
+- **Evidence-gated answers:** required tool calls, policy retrieval, and answer facts are checked before accepting a response.
+- **Observable failures:** benchmark output records coverage, accuracy, model/tool calls, rejections, tokens, and latency.
 
----
+## Results
 
-## RAG
+### Retrieval benchmark
 
-NovaShop policies are stored as Markdown documents and chunked by section with size limits and overlap.
-
-Two retrievers were implemented and benchmarked:
+The included benchmark compares lexical retrieval with the semantic retriever over the policy corpus.
 
 | Retriever | Recall@1 | Recall@3 | Recall@5 | MRR |
 |---|---:|---:|---:|---:|
 | TF-IDF | 0.636 | 0.818 | 0.955 | 0.759 |
 | MiniLM + FAISS | **0.864** | **1.000** | **1.000** | **0.932** |
 
-The embedding retriever became the main knowledge-search system.
+### Latest end-to-end agent benchmark
 
----
+This is a 20-case local-model baseline, saved in [`artifacts/evaluations/agent_benchmark_latest.json`](artifacts/evaluations/agent_benchmark_latest.json). It is intentionally reported as-is: the project measures where a small local model fails and routes unsupported conclusions to human review.
 
-## MCP tools
+| Metric | Result |
+|---|---:|
+| Completion rate | 75% |
+| Required duplicate-payment tool coverage | 70% |
+| Duplicate-payment accuracy | 70% |
+| Policy-retrieval coverage | 95% |
+| Final-answer fact coverage | 70% |
+| Overall success | **45%** |
+| Average latency | 94.25 s |
+| Average model / tool calls | 6.20 / 5.95 |
 
-The agent does not receive unrestricted SQL or arbitrary Python access.
+The key engineering outcome is not that a 1.7B local model is perfect; it is that unsupported or incomplete answers are measurable and can be rejected rather than silently presented as correct.
 
-It works through narrow MCP capabilities such as:
+## Stack
 
-```text
-get_customer_summary
-get_orders
-get_payment_status
-get_shipment_status
-get_refunds
-search_policy
-detect_duplicate_payment
-check_cancellation_eligibility
-```
+Python · FastAPI · SQLAlchemy · SQLite · Ollama · Qwen3 1.7B · MCP · sentence-transformers · FAISS · scikit-learn · pytest
 
-This keeps tool usage structured, testable, and auditable.
+## Run it locally
 
----
-
-## Controlled agent
-
-The local Qwen model can investigate cases by calling tools, but it does not have final authority.
-
-Example duplicate-payment flow:
-
-```text
-Customer complaint
-      ↓
-get_orders(customer_id)
-      ↓
-detect_duplicate_payment(order_id)
-      ↓
-search_policy(...)
-      ↓
-EvidenceGate
-      ↓
-final answer
-```
-
-The controller also enforces:
-
-- maximum reasoning steps,
-- maximum tool calls,
-- repeated-call protection,
-- tool allowlists,
-- dynamic order/customer scope.
-
----
-
-## Why verification was added
-
-During testing, the LLM sometimes:
-
-- skipped required tools,
-- used the wrong order,
-- ignored correct evidence,
-- invented policy,
-- or omitted confirmed facts.
-
-Instead of relying only on prompt engineering, SentinelAI adds a deterministic `EvidenceGate`.
-
-It can require missing evidence:
-
-```text
-get_orders(customer_id=2)
-detect_duplicate_payment(order_id=2)
-detect_duplicate_payment(order_id=3)
-search_policy(...)
-```
-
-It can also reject final answers that omit verified facts such as:
-
-```text
-Order 2 → duplicate payment → overpayment 49.99
-Order 3 → duplicate payment → overpayment 39.90
-```
-
-After each tool batch, the verifier can also suggest only the **next missing required tools**, reducing unnecessary agent exploration.
-
----
-
-## Synthetic NovaShop environment
-
-The project includes deterministic test data for:
-
-- normal orders,
-- duplicate payments,
-- failed payments,
-- cancelled-but-charged orders,
-- shipments,
-- refunds,
-- damaged-item scenarios.
-
-This provides known ground truth for evaluating the agent.
-
----
-
-## Evaluation
-
-SentinelAI evaluates both individual components and the full agent.
-
-### Retrieval evaluation
-
-Metrics:
-
-```text
-Recall@1
-Recall@3
-Recall@5
-MRR
-```
-
-### Agent evaluation
-
-The end-to-end benchmark measures:
-
-```text
-completion rate
-required tool coverage
-duplicate-payment accuracy
-policy retrieval coverage
-final-answer fact coverage
-model calls
-tool calls
-verification rejections
-prompt/output tokens
-latency
-```
-
-The benchmark oracle is calculated from the database and deterministic business rules, not from the LLM itself.
-
----
-
-## Latest full agent benchmark
-
-
-```text
-Cases:                     20
-Completed:                 0.750
-Duplicate coverage:        0.700
-Duplicate accuracy:        0.700
-Policy coverage:           0.950
-Answer fact coverage:      0.700
-Overall success:           0.450
-
-Average model calls:       6.20
-Average tool calls:        5.95
-Average prompt tokens:     8,634.15
-Average latency:           94.25s
-```
-
----
-
-## Run locally
+Prerequisites: Python 3.11+ and [Ollama](https://ollama.com/) running locally.
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-
 pip install -e ".[dev]"
-
 ollama pull qwen3:1.7b
-
 python -m database.seed
-
 pytest -v
 ```
 
-Run one real agent investigation:
+Run a sample duplicate-payment investigation:
 
 ```bash
 python scripts/run_agent.py
 ```
 
-Run the agent benchmark:
+Run the full benchmark or a single case:
 
 ```bash
 python scripts/run_agent_benchmark.py
+python scripts/run_agent_benchmark.py --case agent-dup-001
 ```
 
----
+Compare the two retrieval strategies:
 
-## Project structure
+```bash
+python -m sentinel.evaluation.compare_retrievers
+```
+
+Start the API and check its health endpoint:
+
+```bash
+uvicorn apps.api.main:app --reload
+curl http://127.0.0.1:8000/v1/health
+```
+
+## Project map
 
 ```text
 sentinel/
-├── agent/          # controlled agent, MCP registry, execution scope
-├── business/       # deterministic business rules
-├── evaluation/     # retrieval + agent benchmarks
-├── models/         # Ollama / LLM client
-├── repositories/   # database access
-├── retrieval/      # TF-IDF, embeddings, FAISS
-└── verification/   # EvidenceGate
-
-mcp_servers/
-├── support_db/
-├── operations/
-└── knowledge/
-
-data/
-├── policies/
-└── benchmarks/
+  agent/           controlled agent, tool registry, execution scope
+  business/        deterministic support and payment rules
+  evaluation/      retrieval and end-to-end benchmarks
+  models/          local Ollama client
+  repositories/    database access layer
+  retrieval/       document chunking, TF-IDF, embeddings, FAISS
+  verification/    EvidenceGate and answer-fact checks
+mcp_servers/       support database, operations, and knowledge MCP servers
+data/              synthetic NovaShop policies and benchmark cases
+database/          schema, session, and deterministic seed data
+tests/             unit and integration coverage
 ```
-
