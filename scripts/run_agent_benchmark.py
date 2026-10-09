@@ -37,9 +37,9 @@ async def run_benchmark(
 
     cases = load_agent_benchmark()
 
-    # -----------------------------------------------------
-    # Optional single-case selection
-    # -----------------------------------------------------
+
+
+
 
     if case_id is not None:
 
@@ -57,9 +57,9 @@ async def run_benchmark(
                 f"{case_id}"
             )
 
-    # -----------------------------------------------------
-    # Optional smoke-test limit
-    # -----------------------------------------------------
+
+
+
 
     elif (
         limit is not None
@@ -82,9 +82,9 @@ async def run_benchmark(
 
     results = []
 
-    # Reuse the model and MCP registry across benchmark
-    # cases. Each ControlledAgent.run() still creates its
-    # own fresh conversation and execution scope.
+
+
+
 
     with OllamaClient() as llm:
 

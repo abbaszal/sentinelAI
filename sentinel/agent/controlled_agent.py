@@ -22,9 +22,9 @@ from sentinel.verification.evidence_gate import (
 )
 
 
-# ---------------------------------------------------------
-# Tool registry protocol
-# ---------------------------------------------------------
+
+
+
 
 class ToolRegistryProtocol(
     Protocol
@@ -49,9 +49,9 @@ class ToolRegistryProtocol(
         ...
 
 
-# ---------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------
+
+
+
 
 @dataclass
 class AgentConfig:
@@ -65,9 +65,9 @@ class AgentConfig:
     think: bool = False
 
 
-# ---------------------------------------------------------
-# Trace models
-# ---------------------------------------------------------
+
+
+
 
 ToolCallSource = Literal[
     "model",
@@ -125,9 +125,9 @@ class AgentRunResult:
     completion_tokens: int = 0
 
 
-# ---------------------------------------------------------
-# Controlled Agent
-# ---------------------------------------------------------
+
+
+
 
 class ControlledAgent:
 
@@ -153,9 +153,9 @@ class ControlledAgent:
             or EvidenceGate()
         )
 
-    # -----------------------------------------------------
-    # Main execution
-    # -----------------------------------------------------
+
+
+
 
     async def run(
         self,
@@ -172,9 +172,9 @@ class ControlledAgent:
                 "user_request cannot be empty."
             )
 
-        # ---------------------------------------------
-        # Establish initial investigation scope
-        # ---------------------------------------------
+
+
+
 
         customer_id = (
             self._extract_customer_id(
@@ -186,9 +186,9 @@ class ControlledAgent:
             customer_id=customer_id
         )
 
-        # ---------------------------------------------
-        # Initial conversation
-        # ---------------------------------------------
+
+
+
 
         messages = [
             ChatMessage(
@@ -269,17 +269,17 @@ class ControlledAgent:
 
         model_calls = 0
 
-        # ---------------------------------------------
-        # Prevent duplicate verifier hints.
-        # ---------------------------------------------
+
+
+
 
         last_verifier_guidance: (
             str | None
         ) = None
 
-        # =============================================
-        # MAIN MODEL LOOP
-        # =============================================
+
+
+
 
         for step in range(
             1,
@@ -325,9 +325,9 @@ class ControlledAgent:
                 )
             )
 
-            # =========================================
-            # MODEL PROPOSES FINAL ANSWER
-            # =========================================
+
+
+
 
             if not response.tool_calls:
 
@@ -356,9 +356,9 @@ class ControlledAgent:
                     )
                 )
 
-                # -------------------------------------
-                # Verified answer.
-                # -------------------------------------
+
+
+
 
                 if verification.passed:
 
@@ -393,9 +393,9 @@ class ControlledAgent:
                     verification.feedback
                 )
 
-                # -------------------------------------
-                # Deterministic final-stage repairs.
-                # -------------------------------------
+
+
+
 
                 repairs_executed = False
 
@@ -456,10 +456,10 @@ class ControlledAgent:
 
                         continue
 
-                    # ---------------------------------
-                    # Verification repairs must obey
-                    # the same execution scope.
-                    # ---------------------------------
+
+
+
+
 
                     decision = scope.authorize(
                         tool_name=(
@@ -548,9 +548,9 @@ class ControlledAgent:
 
                     repairs_executed = True
 
-                # -------------------------------------
-                # New evidence invalidates old answer.
-                # -------------------------------------
+
+
+
 
                 if repairs_executed:
 
@@ -592,10 +592,10 @@ class ControlledAgent:
 
                     continue
 
-                # -------------------------------------
-                # No missing evidence action remains.
-                # The model must correct its wording.
-                # -------------------------------------
+
+
+
+
 
                 messages.append(
                     ChatMessage(
@@ -613,9 +613,9 @@ class ControlledAgent:
 
                 continue
 
-            # =========================================
-            # MODEL REQUESTS TOOLS
-            # =========================================
+
+
+
 
             for raw_tool_call in (
                 response.tool_calls
@@ -682,9 +682,9 @@ class ControlledAgent:
                     arguments,
                 ) = parsed
 
-                # -------------------------------------
-                # Static tool allowlist
-                # -------------------------------------
+
+
+
 
                 if not self.tools.has_tool(
                     tool_name
@@ -711,9 +711,9 @@ class ControlledAgent:
 
                     continue
 
-                # -------------------------------------
-                # Dynamic investigation scope
-                # -------------------------------------
+
+
+
 
                 scope_decision = (
                     scope.authorize(
@@ -760,9 +760,9 @@ class ControlledAgent:
 
                     continue
 
-                # -------------------------------------
-                # Model-loop detection
-                # -------------------------------------
+
+
+
 
                 fingerprint = (
                     self._tool_fingerprint(
@@ -820,9 +820,9 @@ class ControlledAgent:
                         ),
                     )
 
-                # -------------------------------------
-                # MCP execution
-                # -------------------------------------
+
+
+
 
                 tool_result = (
                     await self.tools.call_tool(
@@ -857,10 +857,10 @@ class ControlledAgent:
                     trace
                 )
 
-                # -------------------------------------
-                # Expand execution scope only from
-                # successful trusted results.
-                # -------------------------------------
+
+
+
+
 
                 scope.observe_tool_result(
                     tool_name=(
@@ -891,15 +891,15 @@ class ControlledAgent:
                     )
                 )
 
-            # =========================================
-            # PROACTIVE VERIFIER GUIDANCE
-            #
-            # Runs after the full batch of tools
-            # requested by the model.
-            #
-            # This is advisory. It does NOT execute
-            # the required tools automatically here.
-            # =========================================
+
+
+
+
+
+
+
+
+
 
             guidance = (
                 self.verifier
@@ -935,9 +935,9 @@ class ControlledAgent:
                     guidance
                 )
 
-        # =============================================
-        # STEP LIMIT
-        # =============================================
+
+
+
 
         return AgentRunResult(
             answer=(
@@ -969,9 +969,9 @@ class ControlledAgent:
             ),
         )
 
-    # -----------------------------------------------------
-    # Customer-ID extraction
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _extract_customer_id(
@@ -996,9 +996,9 @@ class ControlledAgent:
             match.group(1)
         )
 
-    # -----------------------------------------------------
-    # Tool-call parsing
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _parse_tool_call(
@@ -1070,9 +1070,9 @@ class ControlledAgent:
             arguments,
         )
 
-    # -----------------------------------------------------
-    # Tool fingerprint
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _tool_fingerprint(
@@ -1090,9 +1090,9 @@ class ControlledAgent:
             )
         )
 
-    # -----------------------------------------------------
-    # Tool-limit result
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _tool_limit_result(

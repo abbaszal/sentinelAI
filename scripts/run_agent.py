@@ -108,9 +108,9 @@ async def main() -> None:
                     result.completion_tokens,
                 )
 
-                # -------------------------------------
-                # Verification history
-                # -------------------------------------
+
+
+
 
                 if (
                     result.verification_failures
@@ -141,9 +141,9 @@ async def main() -> None:
                                 f"  {line}"
                             )
 
-                # -------------------------------------
-                # Tool trace
-                # -------------------------------------
+
+
+
 
                 print()
                 print("TOOL TRACE:")

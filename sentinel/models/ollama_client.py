@@ -64,8 +64,8 @@ class OllamaClient(LLMClient):
             or settings.ollama_timeout_seconds
         )
 
-        # If tests provide their own HTTP client,
-        # OllamaClient does not own it.
+
+
         self._owns_http_client = (
             http_client is None
         )
@@ -78,9 +78,9 @@ class OllamaClient(LLMClient):
         else:
             self.http_client = http_client
 
-    # -----------------------------------------------------
-    # Chat
-    # -----------------------------------------------------
+
+
+
 
     def chat(
         self,
@@ -195,18 +195,18 @@ class OllamaClient(LLMClient):
             ),
         )
 
-    # -----------------------------------------------------
-    # Cleanup
-    # -----------------------------------------------------
+
+
+
 
     def close(self) -> None:
 
         if self._owns_http_client:
             self.http_client.close()
 
-    # -----------------------------------------------------
-    # Context manager support
-    # -----------------------------------------------------
+
+
+
 
     def __enter__(
         self,

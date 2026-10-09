@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
-# ---------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------
+
+
+
 
 POLICY_DIRECTORY = Path("data/policies")
 
@@ -12,9 +12,9 @@ DEFAULT_CHUNK_SIZE = 200
 DEFAULT_CHUNK_OVERLAP = 40
 
 
-# ---------------------------------------------------------
-# Data models
-# ---------------------------------------------------------
+
+
+
 
 @dataclass
 class Document:
@@ -42,9 +42,9 @@ class DocumentChunk:
     source: str
 
 
-# ---------------------------------------------------------
-# Document loading
-# ---------------------------------------------------------
+
+
+
 
 def extract_title(content: str) -> str:
     """
@@ -97,9 +97,9 @@ def load_policy_documents() -> list[Document]:
     return documents
 
 
-# ---------------------------------------------------------
-# Section extraction
-# ---------------------------------------------------------
+
+
+
 
 def split_document_into_sections(
     document: Document,
@@ -147,11 +147,11 @@ def split_document_into_sections(
 
         stripped = line.strip()
 
-        # Ignore document title.
+
         if stripped.startswith("# "):
             continue
 
-        # Start a new semantic section.
+
         if stripped.startswith("## "):
             save_section()
 
@@ -165,15 +165,15 @@ def split_document_into_sections(
 
         current_lines.append(line)
 
-    # Save final section.
+
     save_section()
 
     return sections
 
 
-# ---------------------------------------------------------
-# Fixed-size splitting
-# ---------------------------------------------------------
+
+
+
 
 def split_text_with_overlap(
     text: str,
@@ -219,8 +219,8 @@ def split_text_with_overlap(
     if not words:
         return []
 
-    # If the text is already small enough,
-    # keep it as one chunk.
+
+
     if len(words) <= chunk_size:
         return [text.strip()]
 
@@ -246,9 +246,9 @@ def split_text_with_overlap(
     return chunks
 
 
-# ---------------------------------------------------------
-# Hybrid chunking
-# ---------------------------------------------------------
+
+
+
 
 def chunk_document(
     document: Document,
@@ -307,9 +307,9 @@ def chunk_document(
     return chunks
 
 
-# ---------------------------------------------------------
-# Load all policy chunks
-# ---------------------------------------------------------
+
+
+
 
 def load_policy_chunks(
     chunk_size: int = DEFAULT_CHUNK_SIZE,

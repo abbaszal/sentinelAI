@@ -5,9 +5,9 @@ from dataclasses import dataclass, field
 from typing import Any, Protocol
 
 
-# ---------------------------------------------------------
-# Trace protocol
-# ---------------------------------------------------------
+
+
+
 
 class ToolTraceLike(Protocol):
     """
@@ -20,9 +20,9 @@ class ToolTraceLike(Protocol):
     result: Any | None
 
 
-# ---------------------------------------------------------
-# Verification models
-# ---------------------------------------------------------
+
+
+
 
 @dataclass
 class VerificationIssue:
@@ -133,9 +133,9 @@ class VerificationResult:
         )
 
 
-# ---------------------------------------------------------
-# Evidence Gate
-# ---------------------------------------------------------
+
+
+
 
 class EvidenceGate:
     """
@@ -191,9 +191,9 @@ class EvidenceGate:
         "duplicate payments were detected",
     )
 
-    # -----------------------------------------------------
-    # Main verification
-    # -----------------------------------------------------
+
+
+
 
     def verify(
         self,
@@ -237,9 +237,9 @@ class EvidenceGate:
             )
         )
 
-        # ---------------------------------------------
-        # Required duplicate-payment evidence
-        # ---------------------------------------------
+
+
+
 
         if duplicate_intent:
 
@@ -259,9 +259,9 @@ class EvidenceGate:
                 duplicate_actions
             )
 
-        # ---------------------------------------------
-        # Required policy evidence
-        # ---------------------------------------------
+
+
+
 
         if policy_required:
 
@@ -292,14 +292,14 @@ class EvidenceGate:
                 policy_actions
             )
 
-        # ---------------------------------------------
-        # Only evaluate answer content when there is
-        # actually a proposed final answer.
-        #
-        # recommend_next_actions() calls verify("")
-        # internally, so we intentionally skip answer
-        # checks in that case.
-        # ---------------------------------------------
+
+
+
+
+
+
+
+
 
         if proposed_answer.strip():
 
@@ -325,9 +325,9 @@ class EvidenceGate:
                 )
             )
 
-        # ---------------------------------------------
-        # Remove duplicates
-        # ---------------------------------------------
+
+
+
 
         issues = (
             self._deduplicate_issues(
@@ -349,9 +349,9 @@ class EvidenceGate:
             required_actions=actions,
         )
 
-    # -----------------------------------------------------
-    # Proactive guidance
-    # -----------------------------------------------------
+
+
+
 
     def recommend_next_actions(
         self,
@@ -444,9 +444,9 @@ class EvidenceGate:
             lines
         )
 
-    # -----------------------------------------------------
-    # Duplicate-payment evidence requirements
-    # -----------------------------------------------------
+
+
+
 
     def _verify_duplicate_evidence(
         self,
@@ -483,9 +483,9 @@ class EvidenceGate:
             explicit_order_ids
         )
 
-        # ---------------------------------------------
-        # Customer is known but orders are not.
-        # ---------------------------------------------
+
+
+
 
         if (
             not target_order_ids
@@ -553,9 +553,9 @@ class EvidenceGate:
                 )
             )
 
-        # ---------------------------------------------
-        # No identifiers available.
-        # ---------------------------------------------
+
+
+
 
         if (
             not target_order_ids
@@ -567,10 +567,10 @@ class EvidenceGate:
                 actions,
             )
 
-        # ---------------------------------------------
-        # Determine which orders already have a trusted
-        # duplicate-payment result.
-        # ---------------------------------------------
+
+
+
+
 
         checked_order_ids: set[
             int
@@ -658,9 +658,9 @@ class EvidenceGate:
             actions,
         )
 
-    # -----------------------------------------------------
-    # Policy evidence
-    # -----------------------------------------------------
+
+
+
 
     def _verify_policy_evidence(
         self,
@@ -745,9 +745,9 @@ class EvidenceGate:
             ],
         )
 
-    # -----------------------------------------------------
-    # Contradiction verification
-    # -----------------------------------------------------
+
+
+
 
     def _verify_answer_consistency(
         self,
@@ -806,9 +806,9 @@ class EvidenceGate:
             VerificationIssue
         ] = []
 
-        # ---------------------------------------------
-        # At least one trusted result says TRUE.
-        # ---------------------------------------------
+
+
+
 
         if any(
             duplicate_results
@@ -834,9 +834,9 @@ class EvidenceGate:
                     )
                 )
 
-        # ---------------------------------------------
-        # Every trusted result says FALSE.
-        # ---------------------------------------------
+
+
+
 
         elif all(
             duplicate is False
@@ -865,10 +865,10 @@ class EvidenceGate:
 
         return issues
 
-    # -----------------------------------------------------
-    # NEW:
-    # Final-answer completeness verification
-    # -----------------------------------------------------
+
+
+
+
 
     def _verify_answer_completeness(
         self,
@@ -939,9 +939,9 @@ class EvidenceGate:
                 )
             )
 
-            # -----------------------------------------
-            # Neither order nor amount is present.
-            # -----------------------------------------
+
+
+
 
             if (
                 not mentions_order
@@ -967,9 +967,9 @@ class EvidenceGate:
 
                 continue
 
-            # -----------------------------------------
-            # Amount exists, but order is missing.
-            # -----------------------------------------
+
+
+
 
             if not mentions_order:
 
@@ -988,9 +988,9 @@ class EvidenceGate:
                     )
                 )
 
-            # -----------------------------------------
-            # Order exists, amount is missing.
-            # -----------------------------------------
+
+
+
 
             if not mentions_amount:
 
@@ -1011,9 +1011,9 @@ class EvidenceGate:
 
         return issues
 
-    # -----------------------------------------------------
-    # Extract confirmed duplicate facts
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _confirmed_duplicate_facts(
@@ -1107,9 +1107,9 @@ class EvidenceGate:
             )
         ]
 
-    # -----------------------------------------------------
-    # Answer fact matching
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _answer_mentions_order(
@@ -1178,9 +1178,9 @@ class EvidenceGate:
             for variant in variants
         )
 
-    # -----------------------------------------------------
-    # Policy query
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _build_policy_query(
@@ -1199,9 +1199,9 @@ class EvidenceGate:
             user_request
         )
 
-    # -----------------------------------------------------
-    # Trace helpers
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _find_successful_trace(
@@ -1287,9 +1287,9 @@ class EvidenceGate:
 
         return order_ids
 
-    # -----------------------------------------------------
-    # Identifier extraction
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _extract_customer_id(
@@ -1336,9 +1336,9 @@ class EvidenceGate:
             in matches
         }
 
-    # -----------------------------------------------------
-    # Text helpers
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _contains_any(
@@ -1377,9 +1377,9 @@ class EvidenceGate:
             in patterns
         )
 
-    # -----------------------------------------------------
-    # Deduplication
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _deduplicate_issues(

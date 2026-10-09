@@ -13,8 +13,8 @@ mcp = MCPServer(
 )
 
 
-# Build embedding model + FAISS index once
-# when this MCP server starts.
+
+
 retriever = build_embedding_retriever()
 
 

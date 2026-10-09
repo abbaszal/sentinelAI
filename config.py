@@ -5,24 +5,24 @@ from pydantic_settings import (
 
 
 class Settings(BaseSettings):
-    # -----------------------------------------------------
-    # Application
-    # -----------------------------------------------------
+
+
+
 
     app_name: str = "SentinelAI"
     app_version: str = "0.1.0"
 
-    # -----------------------------------------------------
-    # Database
-    # -----------------------------------------------------
+
+
+
 
     database_url: str = (
         "sqlite:///./sentinel.db"
     )
 
-    # -----------------------------------------------------
-    # Ollama
-    # -----------------------------------------------------
+
+
+
 
     ollama_base_url: str = (
         "http://127.0.0.1:11434"
@@ -36,9 +36,9 @@ class Settings(BaseSettings):
 
     ollama_think: bool = False
 
-    # -----------------------------------------------------
-    # Environment file
-    # -----------------------------------------------------
+
+
+
 
     model_config = SettingsConfigDict(
         env_file=".env",

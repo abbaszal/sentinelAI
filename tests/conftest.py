@@ -37,9 +37,9 @@ def db():
 
     session = TestSessionLocal()
 
-    # -----------------------------------
-    # Customer
-    # -----------------------------------
+
+
+
 
     customer = Customer(
         id=1,
@@ -49,9 +49,9 @@ def db():
 
     session.add(customer)
 
-    # -----------------------------------
-    # Duplicate-payment order
-    # -----------------------------------
+
+
+
 
     order = Order(
         id=100,
@@ -62,9 +62,9 @@ def db():
 
     session.add(order)
 
-    # -----------------------------------
-    # Two completed payments
-    # -----------------------------------
+
+
+
 
     payment_1 = Payment(
         id=1000,
@@ -87,9 +87,9 @@ def db():
         payment_2,
     ])
 
-    # -----------------------------------
-    # Shipment
-    # -----------------------------------
+
+
+
 
     shipment = Shipment(
         id=2000,
@@ -101,9 +101,9 @@ def db():
 
     session.add(shipment)
 
-    # -----------------------------------
-    # Support case
-    # -----------------------------------
+
+
+
 
     support_case = SupportCase(
         id=3000,
@@ -118,7 +118,7 @@ def db():
     session.add(support_case)
 
     session.commit()
-    
+
 
     normal_order = Order(
         id=101,

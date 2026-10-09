@@ -54,9 +54,9 @@ class ExecutionScope:
 
     orders_discovered: bool = False
 
-    # -----------------------------------------------------
-    # Tool authorization
-    # -----------------------------------------------------
+
+
+
 
     def authorize(
         self,
@@ -68,9 +68,9 @@ class ExecutionScope:
         the operational scope of this investigation.
         """
 
-        # ---------------------------------------------
-        # Customer discovery
-        # ---------------------------------------------
+
+
+
 
         if tool_name in {
             "get_customer_summary",
@@ -104,9 +104,9 @@ class ExecutionScope:
                 allowed=True
             )
 
-        # ---------------------------------------------
-        # Order-specific tools
-        # ---------------------------------------------
+
+
+
 
         if (
             tool_name
@@ -128,8 +128,8 @@ class ExecutionScope:
                     ),
                 )
 
-            # If customer scope exists, discover their
-            # orders BEFORE using arbitrary order IDs.
+
+
             if (
                 self.customer_id is not None
                 and not self.orders_discovered
@@ -164,9 +164,9 @@ class ExecutionScope:
             allowed=True
         )
 
-    # -----------------------------------------------------
-    # Update scope from trusted results
-    # -----------------------------------------------------
+
+
+
 
     def observe_tool_result(
         self,

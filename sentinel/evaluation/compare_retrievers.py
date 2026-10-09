@@ -50,9 +50,9 @@ def main():
     print("SentinelAI Retriever Comparison")
     print("=" * 70)
 
-    # -----------------------------------------------------
-    # TF-IDF
-    # -----------------------------------------------------
+
+
+
 
     tfidf_retriever = (
         build_policy_retriever()
@@ -69,9 +69,9 @@ def main():
         tfidf_metrics,
     )
 
-    # -----------------------------------------------------
-    # Embeddings + FAISS
-    # -----------------------------------------------------
+
+
+
 
     embedding_retriever = (
         build_embedding_retriever()

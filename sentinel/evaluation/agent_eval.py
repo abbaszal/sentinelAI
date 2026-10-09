@@ -31,9 +31,9 @@ from sentinel.repositories.support_repository import (
 )
 
 
-# ---------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------
+
+
+
 
 DEFAULT_BENCHMARK_PATH = Path(
     "data/benchmarks/"
@@ -41,9 +41,9 @@ DEFAULT_BENCHMARK_PATH = Path(
 )
 
 
-# ---------------------------------------------------------
-# Benchmark models
-# ---------------------------------------------------------
+
+
+
 
 @dataclass
 class AgentBenchmarkCase:
@@ -149,9 +149,9 @@ class AgentBenchmarkSummary:
     average_latency_seconds: float
 
 
-# ---------------------------------------------------------
-# Benchmark loading
-# ---------------------------------------------------------
+
+
+
 
 def load_agent_benchmark(
     path: Path = DEFAULT_BENCHMARK_PATH,
@@ -197,9 +197,9 @@ def load_agent_benchmark(
     return cases
 
 
-# ---------------------------------------------------------
-# Trusted oracle
-# ---------------------------------------------------------
+
+
+
 
 def build_oracle(
     customer_id: int,
@@ -253,9 +253,9 @@ def build_oracle(
         return results
 
 
-# ---------------------------------------------------------
-# Trace helpers
-# ---------------------------------------------------------
+
+
+
 
 def successful_duplicate_traces(
     traces: list[
@@ -342,9 +342,9 @@ def has_successful_policy_search(
     return False
 
 
-# ---------------------------------------------------------
-# Evidence grading
-# ---------------------------------------------------------
+
+
+
 
 def grade_duplicate_tool_coverage(
     oracle: list[
@@ -440,9 +440,9 @@ def grade_duplicate_tool_accuracy(
     return True
 
 
-# ---------------------------------------------------------
-# Final-answer grading
-# ---------------------------------------------------------
+
+
+
 
 def answer_mentions_order(
     answer: str,
@@ -514,9 +514,9 @@ def grade_answer_fact_coverage(
         if order.duplicate_payment
     ]
 
-    # ---------------------------------------------
-    # Positive case
-    # ---------------------------------------------
+
+
+
 
     if duplicated_orders:
 
@@ -536,9 +536,9 @@ def grade_answer_fact_coverage(
 
         return True
 
-    # ---------------------------------------------
-    # Negative case
-    # ---------------------------------------------
+
+
+
 
     lower = answer.lower()
 
@@ -559,9 +559,9 @@ def grade_answer_fact_coverage(
     )
 
 
-# ---------------------------------------------------------
-# Single-case evaluation
-# ---------------------------------------------------------
+
+
+
 
 async def evaluate_agent_case(
     case: AgentBenchmarkCase,
@@ -579,9 +579,9 @@ async def evaluate_agent_case(
 
     failures: list[str] = []
 
-    # ---------------------------------------------
-    # Benchmark integrity
-    # ---------------------------------------------
+
+
+
 
     if (
         oracle_has_duplicate
@@ -635,7 +635,7 @@ async def evaluate_agent_case(
         )
 
     else:
-        # Policy retrieval is not required for this case.
+
         policy_coverage = True
 
     answer_fact_coverage = (
@@ -645,9 +645,9 @@ async def evaluate_agent_case(
         )
     )
 
-    # ---------------------------------------------
-    # Failure reasons
-    # ---------------------------------------------
+
+
+
 
     if not completed:
         failures.append(
@@ -747,9 +747,9 @@ async def evaluate_agent_case(
     )
 
 
-# ---------------------------------------------------------
-# Summary
-# ---------------------------------------------------------
+
+
+
 
 def safe_average(
     values: list[
@@ -886,9 +886,9 @@ def calculate_agent_summary(
     )
 
 
-# ---------------------------------------------------------
-# Reporting
-# ---------------------------------------------------------
+
+
+
 
 def print_case_result(
     result: AgentCaseEvaluation,
@@ -1072,9 +1072,9 @@ def print_summary(
     print("=" * 72)
 
 
-# ---------------------------------------------------------
-# Result persistence
-# ---------------------------------------------------------
+
+
+
 
 def save_results(
     output_path: Path,

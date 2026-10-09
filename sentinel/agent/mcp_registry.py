@@ -19,9 +19,9 @@ from mcp_servers.support_db.server import (
 )
 
 
-# ---------------------------------------------------------
-# Tool execution result
-# ---------------------------------------------------------
+
+
+
 
 @dataclass
 class ToolExecutionResult:
@@ -38,9 +38,9 @@ class ToolExecutionResult:
     model_content: str
 
 
-# ---------------------------------------------------------
-# Internal tool registration
-# ---------------------------------------------------------
+
+
+
 
 @dataclass
 class RegisteredTool:
@@ -58,9 +58,9 @@ class RegisteredTool:
     client: Client
 
 
-# ---------------------------------------------------------
-# MCP registry
-# ---------------------------------------------------------
+
+
+
 
 class MCPToolRegistry:
     """
@@ -94,9 +94,9 @@ class MCPToolRegistry:
             RegisteredTool,
         ] = {}
 
-    # -----------------------------------------------------
-    # Context manager
-    # -----------------------------------------------------
+
+
+
 
     async def __aenter__(
         self,
@@ -175,9 +175,9 @@ class MCPToolRegistry:
                 traceback,
             )
 
-    # -----------------------------------------------------
-    # Tool discovery
-    # -----------------------------------------------------
+
+
+
 
     def tool_names(
         self,
@@ -197,9 +197,9 @@ class MCPToolRegistry:
             in self._tools
         )
 
-    # -----------------------------------------------------
-    # Ollama schemas
-    # -----------------------------------------------------
+
+
+
 
     def ollama_tools(
         self,
@@ -240,9 +240,9 @@ class MCPToolRegistry:
 
         return tools
 
-    # -----------------------------------------------------
-    # Tool execution
-    # -----------------------------------------------------
+
+
+
 
     async def call_tool(
         self,
@@ -283,10 +283,10 @@ class MCPToolRegistry:
             )
         )
 
-        # ---------------------------------------------
-        # Preferred path:
-        # MCP structured output
-        # ---------------------------------------------
+
+
+
+
 
         if (
             result.structured_content
@@ -321,10 +321,10 @@ class MCPToolRegistry:
                 ),
             )
 
-        # ---------------------------------------------
-        # Fallback:
-        # MCP text content
-        # ---------------------------------------------
+
+
+
+
 
         text_parts: list[str] = []
 

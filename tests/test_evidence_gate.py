@@ -7,9 +7,9 @@ from sentinel.verification.evidence_gate import (
 )
 
 
-# ---------------------------------------------------------
-# Helper
-# ---------------------------------------------------------
+
+
+
 
 def make_trace(
     tool_name,
@@ -35,9 +35,9 @@ def make_trace(
     )
 
 
-# ---------------------------------------------------------
-# Missing evidence
-# ---------------------------------------------------------
+
+
+
 
 def test_missing_customer_orders_creates_repair_action():
 
@@ -230,9 +230,9 @@ def test_only_missing_duplicate_order_is_requested():
     )
 
 
-# ---------------------------------------------------------
-# Policy evidence
-# ---------------------------------------------------------
+
+
+
 
 def test_policy_question_creates_search_action():
 
@@ -304,9 +304,9 @@ def test_policy_question_creates_search_action():
     )
 
 
-# ---------------------------------------------------------
-# Contradictions
-# ---------------------------------------------------------
+
+
+
 
 def test_verifier_rejects_duplicate_contradiction():
 
@@ -374,10 +374,10 @@ def test_verifier_rejects_duplicate_contradiction():
     )
 
 
-# ---------------------------------------------------------
-# NEW:
-# Answer completeness
-# ---------------------------------------------------------
+
+
+
+
 
 def test_answer_missing_confirmed_order_is_rejected():
 
@@ -432,9 +432,9 @@ def test_answer_missing_confirmed_order_is_rejected():
         ),
     ]
 
-    # This reproduces the failure from our real run:
-    # evidence exists for Orders 2 and 3,
-    # but the model reports only Order 3.
+
+
+
 
     result = verifier.verify(
         user_request=(
@@ -670,9 +670,9 @@ def test_negative_duplicate_result_does_not_require_amount():
     )
 
 
-# ---------------------------------------------------------
-# Policy + complete answer
-# ---------------------------------------------------------
+
+
+
 
 def test_complete_duplicate_policy_case_passes():
 
@@ -783,9 +783,9 @@ def test_complete_duplicate_policy_case_passes():
     )
 
 
-# ---------------------------------------------------------
-# Proactive guidance
-# ---------------------------------------------------------
+
+
+
 
 def test_recommendation_initially_requests_get_orders():
 
@@ -967,9 +967,9 @@ def test_proactive_check_does_not_create_answer_completeness_problem():
         ),
     ]
 
-    # recommend_next_actions uses proposed_answer=""
-    # internally. Answer completeness should not matter
-    # during planning.
+
+
+
 
     actions = (
         verifier.recommend_next_actions(

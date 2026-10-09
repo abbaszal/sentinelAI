@@ -12,9 +12,9 @@ from database.models import (
 from database.session import SessionLocal
 
 
-# ---------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------
+
+
+
 
 RANDOM_SEED = 42
 NUMBER_OF_CUSTOMERS = 30
@@ -105,9 +105,9 @@ ORDER_AMOUNTS = [
 ]
 
 
-# ---------------------------------------------------------
-# Helper functions
-# ---------------------------------------------------------
+
+
+
 
 def make_date(days_ago: int) -> datetime:
     return datetime.utcnow() - timedelta(days=days_ago)
@@ -170,9 +170,9 @@ def create_support_case(
     return support_case
 
 
-# ---------------------------------------------------------
-# Main seed function
-# ---------------------------------------------------------
+
+
+
 
 def seed_database() -> None:
 
@@ -194,9 +194,9 @@ def seed_database() -> None:
 
         customers = []
 
-        # -------------------------------------------------
-        # Create 30 customers
-        # -------------------------------------------------
+
+
+
 
         for index in range(NUMBER_OF_CUSTOMERS):
 
@@ -221,13 +221,13 @@ def seed_database() -> None:
 
         db.flush()
 
-        # -------------------------------------------------
-        # Create scenarios
-        # -------------------------------------------------
+
+
+
 
         for index, customer in enumerate(customers, start=1):
 
-            # Each customer gets between 1 and 3 orders
+
 
             number_of_orders = random.randint(1, 3)
 
@@ -247,10 +247,10 @@ def seed_database() -> None:
                 db.add(order)
                 db.flush()
 
-                # -----------------------------------------
-                # CASE TYPE 1
-                # Normal delivered order
-                # -----------------------------------------
+
+
+
+
 
                 if index % 6 == 1:
 
@@ -273,10 +273,10 @@ def seed_database() -> None:
 
                     shipment_counter += 1
 
-                # -----------------------------------------
-                # CASE TYPE 2
-                # Duplicate payment
-                # -----------------------------------------
+
+
+
+
 
                 elif index % 6 == 2:
 
@@ -290,7 +290,7 @@ def seed_database() -> None:
 
                     payment_counter += 1
 
-                    # Intentional duplicate charge
+
                     create_payment(
                         db,
                         order,
@@ -320,10 +320,10 @@ def seed_database() -> None:
                             ),
                         )
 
-                # -----------------------------------------
-                # CASE TYPE 3
-                # Processing order
-                # -----------------------------------------
+
+
+
+
 
                 elif index % 6 == 3:
 
@@ -337,10 +337,10 @@ def seed_database() -> None:
 
                     payment_counter += 1
 
-                # -----------------------------------------
-                # CASE TYPE 4
-                # Cancelled order
-                # -----------------------------------------
+
+
+
+
 
                 elif index % 6 == 4:
 
@@ -367,10 +367,10 @@ def seed_database() -> None:
                             ),
                         )
 
-                # -----------------------------------------
-                # CASE TYPE 5
-                # Failed payment
-                # -----------------------------------------
+
+
+
+
 
                 elif index % 6 == 5:
 
@@ -397,10 +397,10 @@ def seed_database() -> None:
                             ),
                         )
 
-                # -----------------------------------------
-                # CASE TYPE 6
-                # Delivered + partial refund
-                # -----------------------------------------
+
+
+
+
 
                 else:
 
@@ -452,9 +452,9 @@ def seed_database() -> None:
 
         db.commit()
 
-        # -------------------------------------------------
-        # Summary
-        # -------------------------------------------------
+
+
+
 
         customer_count = db.query(Customer).count()
         order_count = db.query(Order).count()

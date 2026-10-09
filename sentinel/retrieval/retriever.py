@@ -9,9 +9,9 @@ from sentinel.retrieval.documents import (
 )
 
 
-# ---------------------------------------------------------
-# Search result model
-# ---------------------------------------------------------
+
+
+
 
 @dataclass
 class SearchResult:
@@ -24,9 +24,9 @@ class SearchResult:
     score: float
 
 
-# ---------------------------------------------------------
-# Policy retriever
-# ---------------------------------------------------------
+
+
+
 
 class PolicyRetriever:
     """
@@ -69,9 +69,9 @@ class PolicyRetriever:
             self.vectorizer.fit_transform(texts)
         )
 
-    # -----------------------------------------------------
-    # Internal helpers
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _chunk_to_search_text(
@@ -98,9 +98,9 @@ class PolicyRetriever:
             ]
         )
 
-    # -----------------------------------------------------
-    # Search
-    # -----------------------------------------------------
+
+
+
 
     def search(
         self,
@@ -170,9 +170,9 @@ class PolicyRetriever:
         return results
 
 
-# ---------------------------------------------------------
-# Factory function
-# ---------------------------------------------------------
+
+
+
 
 def build_policy_retriever(
     chunk_size: int = 200,
@@ -191,9 +191,9 @@ def build_policy_retriever(
     return PolicyRetriever(chunks)
 
 
-# ---------------------------------------------------------
-# Convenience search function
-# ---------------------------------------------------------
+
+
+
 
 def search_policy(
     query: str,

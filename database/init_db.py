@@ -1,8 +1,8 @@
 from database.base import Base
 from database.session import engine
 
-# Important:
-# importing models registers them with SQLAlchemy
+
+
 from database import models
 
 

@@ -11,18 +11,18 @@ from sentinel.retrieval.documents import (
 from sentinel.retrieval.retriever import SearchResult
 
 
-# ---------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------
+
+
+
 
 DEFAULT_EMBEDDING_MODEL = (
     "sentence-transformers/all-MiniLM-L6-v2"
 )
 
 
-# ---------------------------------------------------------
-# Embedding Retriever
-# ---------------------------------------------------------
+
+
+
 
 class EmbeddingPolicyRetriever:
     """
@@ -60,19 +60,19 @@ class EmbeddingPolicyRetriever:
         self.chunks = chunks
         self.model_name = model_name
 
-        # Force CPU use explicitly.
+
         self.model = SentenceTransformer(
             model_name,
             device="cpu",
         )
 
-        # Convert chunks to searchable text.
+
         texts = [
             self._chunk_to_search_text(chunk)
             for chunk in chunks
         ]
 
-        # Create dense embeddings.
+
         embeddings = self.model.encode(
             texts,
             convert_to_numpy=True,
@@ -80,7 +80,7 @@ class EmbeddingPolicyRetriever:
             show_progress_bar=False,
         )
 
-        # FAISS expects float32 arrays.
+
         self.embeddings = np.asarray(
             embeddings,
             dtype=np.float32,
@@ -90,25 +90,25 @@ class EmbeddingPolicyRetriever:
             self.embeddings
         )
 
-        # Determine embedding dimensionality automatically.
+
         dimension = self.embeddings.shape[1]
 
-        # Inner-product index.
-        #
-        # Because embeddings are normalized,
-        # inner product behaves like cosine similarity.
+
+
+
+
         self.index = faiss.IndexFlatIP(
             dimension
         )
 
-        # Add all policy vectors to FAISS.
+
         self.index.add(
             self.embeddings
         )
 
-    # -----------------------------------------------------
-    # Internal helper
-    # -----------------------------------------------------
+
+
+
 
     @staticmethod
     def _chunk_to_search_text(
@@ -133,9 +133,9 @@ class EmbeddingPolicyRetriever:
             ]
         )
 
-    # -----------------------------------------------------
-    # Search
-    # -----------------------------------------------------
+
+
+
 
     def search(
         self,
@@ -153,14 +153,14 @@ class EmbeddingPolicyRetriever:
                 "top_k must be greater than 0."
             )
 
-        # Do not ask FAISS for more results
-        # than actually exist.
+
+
         k = min(
             top_k,
             len(self.chunks),
         )
 
-        # Embed query using the SAME model.
+
         query_embedding = self.model.encode(
             [query],
             convert_to_numpy=True,
@@ -177,7 +177,7 @@ class EmbeddingPolicyRetriever:
             query_embedding
         )
 
-        # Search FAISS.
+
         scores, indexes = self.index.search(
             query_embedding,
             k,
@@ -190,8 +190,8 @@ class EmbeddingPolicyRetriever:
             indexes[0],
         ):
 
-            # FAISS may return -1 when nothing exists
-            # for a requested position.
+
+
             if index < 0:
                 continue
 
@@ -205,9 +205,9 @@ class EmbeddingPolicyRetriever:
         return results
 
 
-# ---------------------------------------------------------
-# Factory
-# ---------------------------------------------------------
+
+
+
 
 def build_embedding_retriever(
     chunk_size: int = 200,
@@ -226,9 +226,9 @@ def build_embedding_retriever(
     )
 
 
-# ---------------------------------------------------------
-# Manual demo
-# ---------------------------------------------------------
+
+
+
 
 if __name__ == "__main__":
 

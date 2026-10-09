@@ -9,18 +9,18 @@ from sentinel.retrieval.retriever import (
 )
 
 
-# ---------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------
+
+
+
 
 DEFAULT_BENCHMARK_PATH = Path(
     "data/benchmarks/retrieval_benchmark.json"
 )
 
 
-# ---------------------------------------------------------
-# Benchmark data models
-# ---------------------------------------------------------
+
+
+
 
 @dataclass
 class RetrievalBenchmarkCase:
@@ -63,9 +63,9 @@ class RetrievalMetrics:
     mrr: float
 
 
-# ---------------------------------------------------------
-# Retriever interface
-# ---------------------------------------------------------
+
+
+
 
 class RetrieverProtocol(Protocol):
     """
@@ -90,9 +90,9 @@ class RetrieverProtocol(Protocol):
         ...
 
 
-# ---------------------------------------------------------
-# Benchmark loading
-# ---------------------------------------------------------
+
+
+
 
 def load_retrieval_benchmark(
     path: Path = DEFAULT_BENCHMARK_PATH,
@@ -124,9 +124,9 @@ def load_retrieval_benchmark(
     return cases
 
 
-# ---------------------------------------------------------
-# Matching logic
-# ---------------------------------------------------------
+
+
+
 
 def is_expected_result(
     result: SearchResult,
@@ -146,9 +146,9 @@ def is_expected_result(
     )
 
 
-# ---------------------------------------------------------
-# Single-case evaluation
-# ---------------------------------------------------------
+
+
+
 
 def evaluate_case(
     retriever: RetrieverProtocol,
@@ -189,9 +189,9 @@ def evaluate_case(
     )
 
 
-# ---------------------------------------------------------
-# Metrics
-# ---------------------------------------------------------
+
+
+
 
 def calculate_recall_at_k(
     results: list[RetrievalCaseResult],
@@ -244,9 +244,9 @@ def calculate_mrr(
     )
 
 
-# ---------------------------------------------------------
-# Full evaluation
-# ---------------------------------------------------------
+
+
+
 
 def evaluate_retriever(
     retriever: RetrieverProtocol,
@@ -292,9 +292,9 @@ def evaluate_retriever(
     return metrics, case_results
 
 
-# ---------------------------------------------------------
-# Console reporting
-# ---------------------------------------------------------
+
+
+
 
 def print_evaluation_report(
     metrics: RetrievalMetrics,
@@ -373,9 +373,9 @@ def print_evaluation_report(
                 )
 
 
-# ---------------------------------------------------------
-# Command-line run
-# ---------------------------------------------------------
+
+
+
 
 if __name__ == "__main__":
 

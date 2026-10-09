@@ -18,9 +18,9 @@ from sentinel.models.base import (
 )
 
 
-# ---------------------------------------------------------
-# Fake LLM
-# ---------------------------------------------------------
+
+
+
 
 class FakeLLMClient(
     LLMClient
@@ -55,9 +55,9 @@ class FakeLLMClient(
         return response
 
 
-# ---------------------------------------------------------
-# Fake tool registry
-# ---------------------------------------------------------
+
+
+
 
 class FakeToolRegistry:
 
@@ -140,9 +140,9 @@ class FakeToolRegistry:
         )
 
 
-# ---------------------------------------------------------
-# Tests
-# ---------------------------------------------------------
+
+
+
 
 @pytest.mark.anyio
 async def test_agent_calls_tool_then_answers():
